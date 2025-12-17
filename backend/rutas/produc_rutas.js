@@ -2,7 +2,7 @@ import express from "express"
 import prod from "../modelos/productos.js"
 import {auth } from "../midd/middleware.js"
 
-const ruta = express.ruta()
+const ruta = express.Router()
 
 ruta.get("/", auth, async (req, res) =>{
     const producto = await prod.find()
@@ -10,7 +10,7 @@ ruta.get("/", auth, async (req, res) =>{
 })
 
 ruta.get("/nuevo", auth, (req,res) =>{
-    res,render("producto-form")
+    res.render("producto-form")
 })
 
 ruta.post("/nuevo", auth, async(req,res) =>{
@@ -19,7 +19,7 @@ ruta.post("/nuevo", auth, async(req,res) =>{
 })
 
 ruta.get("/delete/:id", auth, async (req,res)=>{
-    await producto.findIdAndDelete(req.params.id)
+    await prod.findIdAndDelete(req.params.id)
     res.redirect("/productos")
 })
 

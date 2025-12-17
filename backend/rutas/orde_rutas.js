@@ -2,7 +2,7 @@ import express from "express"
 import Orde from "../modelos/orden.js"
 import {auth } from "../midd/middleware.js"
 
-const ruta = express.ruta()
+const ruta = express.Router()
 
 ruta.get("/", auth, async (req, res) => {
     const orders = await Orde.find();

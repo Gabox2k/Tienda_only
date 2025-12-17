@@ -1,12 +1,12 @@
 import express from "express"
-import brypt from "bcryptjs"
+import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import USER from "../modelos/usuario.js"
 
 const ruta = express.Router()
 
 ruta.get("/login" , (req, res) => {
-    res.render("logn")
+    res.render("login")
 })
 
 ruta.post("/login", async (req, res) => {
@@ -18,7 +18,7 @@ ruta.post("/login", async (req, res) => {
     const contraHashe = await bcrypt.compare(contra, user.contra)
     if (!contraHashe) return res.redirect("/auth/login")
     
-    const token = jwt.sign({ if: user._id}, process.env.JWT_SECRET)
+    const token = jwt.sign({ id: user._id}, process.env.JWT_SECRET)
     res.cookie("token", token)
     res.redirect("/productos")
 })

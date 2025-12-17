@@ -15,11 +15,12 @@ mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log("MongoDB conectado"))
 
 app.set("view engine", "pug")
+app.set("views", "vistas")
 app.use(express.urlencoded({ extended: true}))
 app.use(cookieParser())
 app.use(express.static("public"))
 
-app.use("/usuario", authrutas)
+app.use("/auth", authrutas)
 app.use("/productos", productoRutas)
 app.use("/orden", ordenRutas)
 
