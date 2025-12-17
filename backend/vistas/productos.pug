@@ -1,0 +1,8 @@
+extends layout
+block content
+    h2 Productos
+    a(href="/products/new") Nuevo
+    ul
+        each p in products
+            li #{p.name} - #{p.price}
+                a(href=`/products/delete/${p._id}`) Eliminar

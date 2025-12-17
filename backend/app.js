@@ -3,9 +3,9 @@ import mongoose from "mongoose"
 import cookieParser from "cookie-parser"
 import dotenv from "dotenv"
 
-import authrutas from "./rutas/usuario.js"
-import productoRutas from "./rutas/producto.js"
-import ordenRutas from "./rutas/orden.js"
+import authrutas from "./rutas/usua_rutas.js"
+import productoRutas from "./rutas/produc_rutas.js"
+import ordenRutas from "./rutas/orde_rutas.js"
 
 dotenv.config()
 
