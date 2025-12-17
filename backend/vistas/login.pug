@@ -1,7 +1,14 @@
-extends layout
-block content
-    h2 Login Admin
-    form(method="POST")
-        input(type="email" name="email" placeholder="Email")
-        input(type="password" name="password" placeholder="Password")
-        button Entrar
+doctype html
+html
+  head
+    title Login
+  body
+    h1 Login Admin
+    form(method="POST" action="/auth/login")
+      label Email
+      input(type="email" name="email" required)
+      br
+      label Contraseña
+      input(type="password" name="contra" required)
+      br
+      button(type="submit") Entrar

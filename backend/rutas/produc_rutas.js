@@ -15,11 +15,11 @@ ruta.get("/nuevo", auth, (req,res) =>{
 
 ruta.post("/nuevo", auth, async(req,res) =>{
     await prod.create(req.body)
-    res.redirect("/producto")
+    res.redirect("/productos")
 })
 
 ruta.get("/delete/:id", auth, async (req,res)=>{
-    await prod.findIdAndDelete(req.params.id)
+    await prod.findByIdAndDelete(req.params.id)
     res.redirect("/productos")
 })
 

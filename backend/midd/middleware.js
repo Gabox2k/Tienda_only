@@ -1,14 +1,19 @@
 import jwt from 'jsonwebtoken'
+import USER from '../modelos/usuario.js'
 
-export const auth = (req, res, next) =>{
-    const token = req.cookies.token
-    if (!token) return res.redirect("/auth/login")
-
-
+export const auth = async (req, res, next) =>{
     try{
-        jwt.verify(token, process.env.JWT_SECRET)
-        next()
-    } catch {
-        res.redirect("auth/login")
+        const token = req.cookies.token
+        if (!token) return res.redirect("/auth/login")
+
+       const verificaion = jwt.verify(token, process.env.JWT_SECRET)
+       const usuario = await USER.findById(verificaion.id)
+
+       if (!usuario) return res.redirect('/auth/login')
+
+        req.usuario = usuario
+        next() 
+       } catch (error){
+        res.redirect("/auth/login")
     }
 }

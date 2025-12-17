@@ -14,13 +14,21 @@ ruta.post("/login", async (req, res) => {
     const user = await USER.findOne({email}) 
     
     if (!user) return res.redirect("/auth/login")
+    const storedHash = user.contra || user.contraseña || user.password
+    if (!storedHash) return res.redirect("/auth/login")
 
-    const contraHashe = await bcrypt.compare(contra, user.contra)
+    const contraHashe = await bcrypt.compare(contra, storedHash)
     if (!contraHashe) return res.redirect("/auth/login")
     
     const token = jwt.sign({ id: user._id}, process.env.JWT_SECRET)
-    res.cookie("token", token)
-    res.redirect("/productos")
+    res.cookie("token", token, {httpOnly : true })
+    console.log(`User logged in: ${user.email} role=${user.role}`)
+
+    if (user.role === "admin"){
+        console.log("Redirect a /panel")
+        return res.redirect("/panel")
+    } 
+    return res.redirect("/productos")
 })
 
 ruta.get("/logout", (req,res) =>{

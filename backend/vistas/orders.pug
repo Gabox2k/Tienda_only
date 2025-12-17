@@ -1,0 +1,9 @@
+doctype html
+html
+  head
+    title Órdenes
+  body
+    h1 Órdenes
+    ul
+      each o in ordenes
+        li= o.usuario + " - Total: $" + o.total

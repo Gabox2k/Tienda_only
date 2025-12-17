@@ -1,0 +1,15 @@
+doctype html
+html
+  head
+    title Panel de Administración
+  body
+    h1 Bienvenido #{usuario.nombre}
+    h2 Productos
+    ul
+      each p in productos
+        li= p.nombre + " - $" + p.precio
+    h2 Órdenes
+    ul
+      each o in ordenes
+        li= o.usuario + " - Total: $" + o.total
+    a(href="/auth/logout") Cerrar sesión
