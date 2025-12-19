@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1 Órdenes
+
+  if ordenes.length === 0
+    p No hay órdenes registradas
+  else
+    ul
+      each o in ordenes
+        li
+          | Dirección: #{o.addres} | Fecha: #{o.creacion.toLocaleDateString()}

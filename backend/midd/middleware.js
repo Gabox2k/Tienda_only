@@ -14,6 +14,7 @@ export const auth = async (req, res, next) =>{
         req.usuario = usuario
         next() 
        } catch (error){
+        console.log("error auth:" )
         res.redirect("/auth/login")
     }
 }

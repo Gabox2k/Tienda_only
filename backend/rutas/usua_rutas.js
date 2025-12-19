@@ -21,7 +21,13 @@ ruta.post("/login", async (req, res) => {
     if (!contraHashe) return res.redirect("/auth/login")
     
     const token = jwt.sign({ id: user._id}, process.env.JWT_SECRET)
-    res.cookie("token", token, {httpOnly : true })
+    
+    res.cookie("token", token, {
+        httpOnly : true ,
+        sameSite : "lax",
+        path: "/"
+    })
+
     console.log(`User logged in: ${user.email} role=${user.role}`)
 
     if (user.role === "admin"){

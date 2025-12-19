@@ -14,26 +14,35 @@ dotenv.config()
 
 const app = express()
 
-const server = async() => {
-    try {
-        mongoose.connect(process.env.MONGO_URI)
-        .then(() => console.log("MongoDB conectado"))
+const server = async () => {
+  try {
+    // 1️⃣ Conexión correcta (await)
+    await mongoose.connect(process.env.MONGO_URI)
+    console.log("MongoDB conectado")
 
-        const admin = await USER.findOne({ email: "admin@gmail.com"})
-        if (!admin){
-            const hashedcontra = await bcrypt.hash("admin123", 10)
-            await USER.create({
-                nombre: "admin",
-                email: "admin@gmail.com",
-                contra: hashedcontra,
-                role: "admin"
-            })
-            console.log("Admin creado")}
+    // 2️⃣ Asegurar admin
+    const hashedcontra = await bcrypt.hash("admin123", 10)
 
-    } catch (error){
-        console.log("error al iniciar servidor:", error)
-    }
+    await USER.updateOne(
+      { email: "admin@gmail.com" },
+      {
+        $set: {
+          nombre: "admin",
+          email: "admin@gmail.com",
+          contra: hashedcontra,
+          role: "admin"
+        }
+      },
+      { upsert: true }
+    )
+
+    console.log("Admin asegurado")
+
+  } catch (error) {
+    console.log("Error al iniciar servidor:", error)
+  }
 }
+
 
 server()
 

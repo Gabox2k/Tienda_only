@@ -1,11 +1,16 @@
-doctype html
-html
-  head
-    title Productos
-  body
-    h1 Productos
-    a(href="/productos/nuevo") Nuevo Producto
+extends layout
+
+block content
+  h1 Productos
+  a(href="/productos/nuevo") ➕ Nuevo Producto
+  br
+  br
+
+  if producto.length === 0
+    p No hay productos cargados
+  else
     ul
-      each p in productos
-        li= p.nombre + " - $" + p.precio + " " 
-          a(href=`/productos/delete/${p._id}`) Borrar
+      each p in producto
+        li
+          | #{p.nombre} - $#{p.precio} 
+          a(href=`/productos/delete/${p._id}`) ❌ Borrar

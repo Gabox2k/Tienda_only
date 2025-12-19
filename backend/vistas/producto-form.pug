@@ -1,17 +1,25 @@
-doctype html
-html
-  head
-    title Nuevo Producto
-  body
-    h1 Agregar Producto
-    form(method="POST" action="/productos/nuevo")
-      label Nombre
-      input(type="text" name="nombre" required)
-      br
-      label Precio
-      input(type="number" name="precio" required)
-      br
-      label Descripción
-      textarea(name="descripcion")
-      br
-      button(type="submit") Guardar
+extends layout
+
+block content
+  h1 Agregar Producto
+
+  form(method="POST", action="/productos/nuevo")
+    label Nombre
+    br
+    input(type="text", name="nombre", required)
+    br
+    br
+
+    label Precio
+    br
+    input(type="number", name="precio", required)
+    br
+    br
+
+    label Stock
+    br
+    input(type="number", name="stock", required)
+    br
+    br
+
+    button(type="submit") Guardar producto

@@ -1,15 +1,23 @@
-doctype html
-html
-  head
-    title Panel de Administración
-  body
-    h1 Bienvenido #{usuario.nombre}
-    h2 Productos
+extends layout
+
+block content
+  h1 Bienvenido #{usuario.nombre}
+
+  h2 Productos
+  if productos.length === 0
+    p No hay productos
+  else
     ul
       each p in productos
-        li= p.nombre + " - $" + p.precio
-    h2 Órdenes
+        li #{p.nombre} - $#{p.precio}
+
+  h2 Órdenes
+  if ordenes.length === 0
+    p No hay órdenes
+  else
     ul
       each o in ordenes
-        li= o.usuario + " - Total: $" + o.total
-    a(href="/auth/logout") Cerrar sesión
+        li Dirección: #{o.addres} | Fecha: #{o.creacion.toLocaleDateString()}
+
+  br
+  a(href="/auth/logout") Cerrar sesión
