@@ -5,22 +5,22 @@ import (
 	"html/template"
 	"net/http"
 
-	"frontend/db"
+	"tienda_only/db"
+	"tienda_only/modelo"
 
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func mostrarProductos(w http.ResponseWriter, r *http.Request) {
+func MostrarProductos(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles(
-		"templats/layout.html",
+		"templates/layout.html",
 		"templates/productos.html",
 	))
 
 	cursor, _ := db.DB.Collection("productos").Find(context.TODO(), bson.M{})
 
-	var productos []modelo.producto
+	var productos []modelo.Producto
 	cursor.All(context.TODO(), &productos)
 
 	tmpl.Execute(w, productos)
-
 }

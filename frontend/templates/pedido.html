@@ -1,0 +1,10 @@
+{{ define "content" }}
+<h2>Pedido</h2>
+
+<form method="POST" action="/pedido/crear">
+  <input type="hidden" name="producto" value="{{ . }}">
+  Dirección:
+  <input type="text" name="direccion" required>
+  <button type="submit">Confirmar</button>
+</form>
+{{ end }}
