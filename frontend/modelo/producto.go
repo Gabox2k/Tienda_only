@@ -6,4 +6,5 @@ type Producto struct {
 	Id     primitive.ObjectID `bson:"_id,omitempty"`
 	Nombre string             `bson:"nombre"`
 	Precio float64            `bson:"precio"`
+	Imagen string             `bson:"imagen"`
 }

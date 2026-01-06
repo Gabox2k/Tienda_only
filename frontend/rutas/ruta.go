@@ -11,5 +11,6 @@ func CargaRutas() {
 	http.HandleFunc("/pedido", handlers.Pedido)
 	http.HandleFunc("/pedido/crear", handlers.CrearPedido)
 	http.HandleFunc("/ok", handlers.PedidoOK)
+	http.HandleFunc("/carrito/agregar", handlers.AgregarAlCarrito)
 
 }

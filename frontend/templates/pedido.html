@@ -1,8 +1,10 @@
 {{ define "content" }}
 <h2>Pedido</h2>
 
+<p>Producto: {{ .Nombre }} - ${{ .Precio }}</p>
+
 <form method="POST" action="/pedido/crear">
-  <input type="hidden" name="producto" value="{{ . }}">
+  <input type="hidden" name="id" value="{{ .Id }}">
   Dirección:
   <input type="text" name="direccion" required>
   <button type="submit">Confirmar</button>

@@ -10,6 +10,9 @@ import (
 
 func main() {
 	db.Conexion()
+
+	http.Handle("/imagen/", http.StripPrefix("/imagen/", http.FileServer(http.Dir("frontend/imagen"))))
+
 	rutas.CargaRutas()
 
 	log.Println("Servidor Go en http://localhost:4000")

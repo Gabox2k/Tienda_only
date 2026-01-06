@@ -1,0 +1,14 @@
+{{ define "content" }}
+<h2>🛒 Carrito</h2>
+
+<ul>
+{{ range .Items }}
+  <li>
+    {{ .Producto.Nombre }} -
+    ${{ .Producto.Precio }} x {{ .Cantidad }}
+  </li>
+{{ end }}
+</ul>
+
+<a href="/pedido">Confirmar compra</a>
+{{ end }}
