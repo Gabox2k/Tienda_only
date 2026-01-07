@@ -9,6 +9,7 @@ import (
 	"tienda_only/modelo"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 var carrito = modelo.Carrito{}
@@ -17,10 +18,21 @@ func AgregarAlCarrito(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	id := r.FormValue("id")
 
+	objId, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		http.Error(w, "id no valido", http.StatusBadRequest)
+		return
+	}
+
 	var producto modelo.Producto
-	db.DB.Collection("productos").
-		FindOne(context.TODO(), bson.M{"_id": id}).
+	err = db.DB.Collection("productos").
+		FindOne(context.TODO(), bson.M{"_id": objId}).
 		Decode(&producto)
+
+	if err != nil {
+		http.Error(w, "producto no encontrado", http.StatusNotFound)
+		return
+	}
 
 	for i, item := range carrito.Items {
 		if item.Producto.Id == producto.Id {
@@ -59,4 +71,25 @@ func VerCarrito(w http.ResponseWriter, r *http.Request) {
 	))
 
 	tmpl.Execute(w, data)
+}
+
+func CancelarCarrito(w http.ResponseWriter, r *http.Request) {
+	carrito.Items = []modelo.ItemCarro{}
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
+func ComprarCarrito(w http.ResponseWriter, r *http.Request) {
+	for _, item := range carrito.Items {
+		orden := modelo.Orden{
+			Producto:  item.Producto.Nombre,
+			Direccion: "Dirrecicon por defecto",
+		}
+
+		db.DB.Collection("ordenes").InsertOne(context.TODO(), orden)
+
+	}
+
+	carrito.Items = []modelo.ItemCarro{}
+
+	http.Redirect(w, r, "/ok", http.StatusSeeOther)
 }

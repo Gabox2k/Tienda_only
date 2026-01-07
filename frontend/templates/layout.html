@@ -2,10 +2,35 @@
 <html>
 <head>
   <title>Tienda Pingüinos</title>
+
+  <style>
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .carrito {
+      font-size: 20px;
+      text-decoration: none;
+    }
+  </style>
 </head>
+
 <body>
-  <h1>Tienda Pingüinos 🐧</h1>
+
+  <header>
+    <h1>Tienda Pingüinos 🐧</h1>
+
+    <a href="/carrito" class="carrito">
+      🛒 <span id="contador">0</span>
+    </a>
+  </header>
+
   <hr>
+
   {{ template "content" . }}
+
+  <script src="/static/carrito.js"></script>
 </body>
 </html>

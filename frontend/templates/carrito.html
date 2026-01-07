@@ -4,11 +4,18 @@
 <ul>
 {{ range .Items }}
   <li>
-    {{ .Producto.Nombre }} -
-    ${{ .Producto.Precio }} x {{ .Cantidad }}
+    {{ .Producto.Nombre }} - ${{ .Producto.Precio }} x {{ .Cantidad }}
   </li>
 {{ end }}
 </ul>
 
-<a href="/pedido">Confirmar compra</a>
+<p>Total: ${{ .Total }}</p>
+
+<form method="POST" action="/carrito/comprar">
+  <button type="submit">✅ Comprar</button>
+</form>
+
+<form method="POST" action="/carrito/cancelar">
+  <button type="submit">❌ Cancelar</button>
+</form>
 {{ end }}

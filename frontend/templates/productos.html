@@ -7,7 +7,7 @@
       <img src="{{ .Imagen }}" alt="{{ .Nombre }}" width="100">
       <strong>{{ .Nombre }}</strong> - ${{ .Precio }}
       <form method="POST" action="/carrito/agregar">
-        <input type="hidden" name="id" value="{{ .Id }}">
+        <input type="hidden" name="id" value="{{ .Id.Hex}}">
         <button type="submit">Agregar al carrito</button>
       </form>
     </li>
