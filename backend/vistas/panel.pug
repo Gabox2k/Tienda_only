@@ -1,23 +1,20 @@
-extends layout
+h1 Tienda Admin
+p Bienvenido #{usuario.nombre}
 
-block content
-  h1 Bienvenido #{usuario.nombre}
+h2 Productos
+ul
+  each prod in productos
+    li #{prod.nombre} - $#{prod.precio}
 
-  h2 Productos
-  if productos.length === 0
-    p No hay productos
-  else
-    ul
-      each p in productos
-        li #{p.nombre} - $#{p.precio}
+h2 Órdenes
+if ordenes.length === 0
+  p No hay órdenes
+else
+  each orden in ordenes
+    div
+      p Dirección: #{orden.addres}
+      ul
+        each prod in orden.productos
+          li #{prod.nombre} - $#{prod.precio} x #{prod.cantidad}
 
-  h2 Órdenes
-  if ordenes.length === 0
-    p No hay órdenes
-  else
-    ul
-      each o in ordenes
-        li Dirección: #{o.addres} | Fecha: #{o.creacion.toLocaleDateString()}
-
-  br
-  a(href="/auth/logout") Cerrar sesión
+a(href="/auth/logout") Cerrar sesión
