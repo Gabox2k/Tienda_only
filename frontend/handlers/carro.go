@@ -1,7 +1,9 @@
 package handlers
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
 	"html/template"
 	"net/http"
 
@@ -79,14 +81,35 @@ func CancelarCarrito(w http.ResponseWriter, r *http.Request) {
 }
 
 func ComprarCarrito(w http.ResponseWriter, r *http.Request) {
+	if len(carrito.Items) == 0 {
+		http.Redirect(w, r, "/carrito", http.StatusSeeOther)
+		return
+	}
+
+	var productosPayload []map[string]interface{}
 	for _, item := range carrito.Items {
-		orden := modelo.Orden{
-			Producto:  item.Producto.Nombre,
-			Direccion: "Dirrecicon por defecto",
-		}
+		productosPayload = append(productosPayload, map[string]interface{}{
+			"nombre":   item.Producto.Nombre,
+			"precio":   item.Producto.Precio,
+			"cantidad": item.Cantidad,
+		})
+	}
 
-		db.DB.Collection("ordenes").InsertOne(context.TODO(), orden)
+	payload := map[string]interface{}{
+		"productos": productosPayload,
+		"direccion": "dirrecion por defecto",
+	}
 
+	b, err := json.Marshal(payload)
+	if err != nil {
+		http.Error(w, "error en el json", http.StatusInternalServerError)
+		return
+	}
+
+	resp, err := http.Post("http://localhost:3000/orden/crear", "application/json", bytes.NewBuffer(b))
+	if err != nil || resp.StatusCode != 200 {
+		http.Error(w, "no se pudo crear el orden ", http.StatusInternalServerError)
+		return
 	}
 
 	carrito.Items = []modelo.ItemCarro{}
