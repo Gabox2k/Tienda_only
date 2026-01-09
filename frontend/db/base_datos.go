@@ -26,13 +26,24 @@ func Conexion() {
 	log.Println("mongodb conectado")
 
 	productos := []interface{}{
-		bson.D{{"nombre", "teclado"}, {"precio", 50}, {"imagen", "/imagen/Teclado.jpg"}},
+		bson.D{{"nombre", "teclado"}, {"precio", 5}, {"imagen", "/imagen/Teclado.jpg"}},
+		bson.D{{"nombre", "teclado"}, {"precio", 32}, {"imagen", "/imagen/Teclado2.jpg"}},
+		bson.D{{"nombre", "teclado"}, {"precio", 60}, {"imagen", "/imagen/Teclado3.jpg"}},
+		bson.D{{"nombre", "Combo teclado + Mouse"}, {"precio", 90}, {"imagen", "/imagen/Combo.jpg"}},
+		bson.D{{"nombre", "Mouse"}, {"precio", 10}, {"imagen", "/imagen/Mouse.jpg"}},
+		bson.D{{"nombre", "Mouse"}, {"precio", 46}, {"imagen", "/imagen/Mouse2.jpg"}},
+		bson.D{{"nombre", "Mouse"}, {"precio", 50}, {"imagen", "/imagen/Mouse3.jpg"}},
+		bson.D{{"nombre", "Mouse"}, {"precio", 35}, {"imagen", "/imagen/Mouse4.jpg"}},
+		bson.D{{"nombre", "Mouse Inalambrico"}, {"precio", 75}, {"imagen", "/imagen/Mouse5.jpg"}},
+		bson.D{{"nombre", "PC"}, {"precio", 500}, {"imagen", "/imagen/PC.jpg"}},
+		bson.D{{"nombre", "PC"}, {"precio", 700}, {"imagen", "/imagen/PC2.jpg"}},
+		bson.D{{"nombre", "PC"}, {"precio", 1000}, {"imagen", "/imagen/PC3.jpg"}},
 	}
 
 	count, _ := DB.Collection("productos").CountDocuments(ctx, bson.D{})
 	if count == 0 {
 		DB.Collection("productos").InsertMany(ctx, productos)
-		log.Println("productos insertados")
+		log.Println("productos creados")
 	}
 
 }

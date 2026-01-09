@@ -11,7 +11,7 @@ import (
 func main() {
 	db.Conexion()
 
-	http.Handle("/imagen/", http.StripPrefix("/imagen/", http.FileServer(http.Dir("frontend/imagen"))))
+	http.Handle("/imagen/", http.StripPrefix("/imagen/", http.FileServer(http.Dir("imagen"))))
 
 	rutas.CargaRutas()
 
