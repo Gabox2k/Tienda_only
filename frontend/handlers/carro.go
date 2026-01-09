@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"net/http"
 
@@ -52,6 +53,17 @@ func AgregarAlCarrito(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
+func precio2(valor float64) string {
+	s := fmt.Sprintf("%.0f", valor)
+
+	n := len(s)
+	if n <= 3 {
+		return s
+	}
+
+	return s[:n-3] + "." + s[n-3:]
+}
+
 func VerCarrito(w http.ResponseWriter, r *http.Request) {
 
 	total := 0.0
@@ -67,11 +79,14 @@ func VerCarrito(w http.ResponseWriter, r *http.Request) {
 		Total: total,
 	}
 
-	tmpl := template.Must(template.ParseFiles(
-		"templates/layout.html",
-		"templates/carrito.html",
-	))
-
+	tmpl := template.Must(template.New("layout.html").
+		Funcs(template.FuncMap{
+			"precio": precio2,
+		}).
+		ParseFiles(
+			"templates/layout.html",
+			"templates/carrito.html"),
+	)
 	tmpl.Execute(w, data)
 }
 

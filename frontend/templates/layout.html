@@ -4,15 +4,57 @@
   <title>Tienda Pingüinos</title>
 
   <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f5f5;
+    }
+
     header {
+      background: #1e90ff;
+      color: white;
+      padding: 15px 30px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
+    header h1 {
+      margin: 0;
+    }
+
     .carrito {
-      font-size: 20px;
+      color: white;
       text-decoration: none;
+      font-size: 18px;
+      background: rgba(255,255,255,0.2);
+      padding: 8px 12px;
+      border-radius: 8px;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    button {
+      background: #1e90ff;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #187bcd;
+    }
+
+    a {
+      text-decoration: none;
+      color: #1e90ff;
     }
   </style>
 </head>
@@ -23,14 +65,13 @@
     <h1>Tienda Pingüinos 🐧</h1>
 
     <a href="/carrito" class="carrito">
-      🛒 <span id="contador">0</span>
+      🛒 Carrito
     </a>
   </header>
 
-  <hr>
+  <main>
+    {{ template "content" . }}
+  </main>
 
-  {{ template "content" . }}
-
-  <script src="/static/carrito.js"></script>
 </body>
 </html>

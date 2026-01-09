@@ -1,21 +1,56 @@
 {{ define "content" }}
-<h2>🛒 Carrito</h2>
+<h2>🛒 Tu carrito</h2>
 
-<ul>
-{{ range .Items }}
-  <li>
-    {{ .Producto.Nombre }} - ${{ .Producto.Precio }} x {{ .Cantidad }}
-  </li>
+<style>
+  .item {
+    background: white;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .total {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+
+  .acciones {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+  }
+</style>
+
+{{ if .Items }}
+  {{ range .Items }}
+    <div class="item">
+      <div>
+        {{ .Producto.Nombre }}  
+        (x{{ .Cantidad }})
+      </div>
+      <div>
+        $ {{ precio .Producto.Precio }}
+      </div>
+    </div>
+  {{ end }}
+
+  <div class="total">
+    Total: $ {{ precio .Total }}
+  </div>
+
+  <div class="acciones">
+    <form method="POST" action="/carrito/comprar">
+      <button type="submit">✅ Comprar</button>
+    </form>
+
+    <form method="POST" action="/carrito/cancelar">
+      <button type="submit">❌ Cancelar</button>
+    </form>
+  </div>
+{{ else }}
+  <p>El carrito está vacío 🐧</p>
 {{ end }}
-</ul>
-
-<p>Total: ${{ .Total }}</p>
-
-<form method="POST" action="/carrito/comprar">
-  <button type="submit">✅ Comprar</button>
-</form>
-
-<form method="POST" action="/carrito/cancelar">
-  <button type="submit">❌ Cancelar</button>
-</form>
 {{ end }}

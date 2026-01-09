@@ -1,12 +1,17 @@
 {{ define "content" }}
-<h2>Pedido</h2>
+<h2>📦 Confirmar pedido</h2>
 
-<p>Producto: {{ .Nombre }} - ${{ .Precio }}</p>
+<p>
+  <strong>{{ .Nombre }}</strong>  
+  - $ {{ precio .Precio }}
+</p>
 
 <form method="POST" action="/pedido/crear">
   <input type="hidden" name="id" value="{{ .Id }}">
-  Dirección:
-  <input type="text" name="direccion" required>
-  <button type="submit">Confirmar</button>
+
+  <label>Dirección:</label><br>
+  <input type="text" name="direccion" required style="width:100%; padding:8px; margin:10px 0;">
+
+  <button type="submit">Confirmar pedido</button>
 </form>
 {{ end }}
