@@ -1,12 +1,26 @@
-extends layout
+h2 Órdenes
 
-block content
-  h1 Órdenes
+if ordenes.length === 0
+  p No hay órdenes registradas
+else
+  ul.lista
+    each o in ordenes
+      li.orden
+        // Dirección y fecha
+        p
+          strong Dirección: 
+          | #{o.addres}
+          br
+          strong Fecha: 
+          | #{o.creacion.toLocaleDateString()}
 
-  if ordenes.length === 0
-    p No hay órdenes registradas
-  else
-    ul
-      each o in ordenes
-        li
-          | Dirección: #{o.addres} | Fecha: #{o.creacion.toLocaleDateString()}
+        // Lista de productos de la orden
+        ul
+          each prod in o.productos
+            li #{prod.nombre} - $#{prod.precio} x #{prod.cantidad}
+
+        // Aquí van el estado y el botón ✅
+        p Estado: #{o.estado === 'entregada' ? '✅ Entregada' : '⏳ Pendiente'}
+
+        form(method="POST", action=`/ordenes/${o._id}/entregada`)
+          button.btn(type="submit", disabled=o.estado === 'entregada') ✅ Marcar como entregada

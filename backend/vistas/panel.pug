@@ -1,20 +1,62 @@
-h1 Tienda Admin
-p Bienvenido #{usuario.nombre}
+extends layout
 
-h2 Productos
-ul
-  each prod in productos
-    li #{prod.nombre} - $#{prod.precio}
+block content
+  h2 Panel de Administración
+  p Bienvenido #{usuario.nombre}
 
-h2 Órdenes
-if ordenes.length === 0
-  p No hay órdenes
-else
-  each orden in ordenes
-    div
-      p Dirección: #{orden.addres}
+  // ---------------------------
+  // Sección Productos
+  // ---------------------------
+  section
+    h3 Productos
+    if productos.length === 0
+      p No hay productos cargados
+    else
       ul
-        each prod in orden.productos
-          li #{prod.nombre} - $#{prod.precio} x #{prod.cantidad}
+        each prod in productos
+          li #{prod.nombre} - $#{prod.precio}
 
-a(href="/auth/logout") Cerrar sesión
+  // ---------------------------
+  // Sección Órdenes Pendientes
+  // ---------------------------
+  section
+    h3 Órdenes Pendientes
+    - const pendientes = ordenes.filter(o => o.estado !== 'entregada')
+    if pendientes.length === 0
+      p No hay órdenes pendientes
+    else
+      each orden in pendientes
+        .orden
+          p Dirección: #{orden.addres}
+          p Fecha: #{orden.creacion.toLocaleDateString()}
+          ul
+            each prod in orden.productos
+              li #{prod.nombre} - $#{prod.precio} x #{prod.cantidad}
+
+          p Estado: ⏳ Pendiente
+          form(method="POST", action=`/ordenes/${orden._id}/entregada`)
+            button.btn(type="submit") ✅ Marcar como entregada
+
+  // ---------------------------
+  // Sección Pedidos Entregados
+  // ---------------------------
+  section
+    h3 Pedidos Entregados
+    - const entregadas = ordenes.filter(o => o.estado === 'entregada')
+    if entregadas.length === 0
+      p No hay pedidos entregados aún
+    else
+      each orden in entregadas
+        .orden
+          p Dirección: #{orden.addres}
+          p Fecha: #{orden.creacion.toLocaleDateString()}
+          ul
+            each prod in orden.productos
+              li #{prod.nombre} - $#{prod.precio} x #{prod.cantidad}
+
+          p Estado: ✅ Entregada
+
+  // ---------------------------
+  // Logout
+  // ---------------------------
+  a.btn(href="/auth/logout") Cerrar sesión

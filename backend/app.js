@@ -48,6 +48,7 @@ server()
 
 app.set("view engine", "pug")
 app.set("views", "vistas")
+app.use(express.static("public"))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true}))
 app.use(cookieParser())
@@ -56,6 +57,7 @@ app.use(express.static("public"))
 app.use("/auth", authrutas)
 app.use("/productos", productoRutas)
 app.use("/orden", ordenRutas)
+app.use("/ordenes", ordenRutas)
 app.use("/panel", panelrutas)
 
 app.get("/", (req,res)=>{

@@ -1,16 +1,16 @@
 extends layout
 
 block content
-  h1 Login Admin
-  form(method="POST", action="/auth/login")
-    label Email
-    br
-    input(type="email", name="email", required)
-    br
-    br
-    label Contraseña
-    br
-    input(type="password", name="contra", required)
-    br
-    br
-    button(type="submit") Entrar
+  section.card
+    h2 Login Admin
+
+    form(method="POST", action="/auth/login")
+      .field
+        label(for="email") Email
+        input(type="email", name="email", required)
+
+      .field
+        label(for="contra") Contraseña
+        input(type="password", name="contra", required)
+
+      button(type="submit") Entrar

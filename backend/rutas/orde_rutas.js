@@ -20,5 +20,16 @@ ruta.post("/crear", async (req, res) => {
   res.status(200).json({ ok: true });
 });
 
+ruta.post("/:id/entregada", async (req, res) => {
+    const id = req.params.id
+
+    try{
+        await Orde.findByIdAndUpdate(id, {estado: "entregada"})
+        res.redirect("/panel")
+    } catch (err){
+        console.log(err)
+        res.status(500).send("Error en la actualizacion")
+    }
+})
 
 export default ruta
