@@ -18,9 +18,23 @@ ruta.post("/nuevo", auth, async(req,res) =>{
     res.redirect("/productos")
 })
 
+ruta.get("/editar/:id", auth, async (req, res)=>{
+    const producto = await prod.findById(req.params.id)
+    res.render ("producto-editar" , {producto})
+})
+
+ruta.post("/editar/:id", auth, async (req, res) =>{
+    const {precio} = req.body
+
+    await prod.findByIdAndUpdate(req.params.id, {precio})
+
+    res.redirect("/panel")
+    
+})
+
 ruta.get("/delete/:id", auth, async (req,res)=>{
     await prod.findByIdAndDelete(req.params.id)
-    res.redirect("/productos")
+    res.redirect("/panel")
 })
 
 export default ruta

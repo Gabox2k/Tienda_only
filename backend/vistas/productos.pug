@@ -2,13 +2,20 @@ extends layout
 
 block content
   h2 Productos
-  a.btn(href="/productos/nuevo") ➕ Nuevo Producto
 
-  if producto.length === 0
-    p No hay productos cargados
+  if productos.length === 0
+    p No hay productos
   else
-    ul
-      each p in producto
-        li
-          | #{p.nombre} - $#{p.precio}
-          a.delete(href=`/productos/delete/${p._id}`) ❌
+    table
+      tr
+        th Nombre
+        th Precio
+        th Acciones
+
+      each p in productos
+        tr
+          td #{p.nombre}
+          td $#{p.precio}
+          td
+            a.btn(href=`/productos/editar/${p._id}`) ✏️ Editar
+            a.btn.delete(href=`/productos/delete/${p._id}`) ❌ Eliminar

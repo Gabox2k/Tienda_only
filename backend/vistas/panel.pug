@@ -1,62 +1,59 @@
 extends layout
 
 block content
-  h2 Panel de Administración
-  p Bienvenido #{usuario.nombre}
+  header.header
+    h2 Panel de Administración
+    p Bienvenido #{usuario.nombre}
 
-  // ---------------------------
-  // Sección Productos
-  // ---------------------------
-  section
-    h3 Productos
-    if productos.length === 0
-      p No hay productos cargados
-    else
-      ul
-        each prod in productos
-          li #{prod.nombre} - $#{prod.precio}
+  .container
+    .grid
+      // PRODUCTOS
+      .card
+        h3 Productos
+        table
+          thead
+            tr
+              th Nombre
+              th Precio
+              th Acciones
+          tbody
+            each p in productos
+              tr
+                td #{p.nombre}
+                td $#{p.precio}
+                td
+                  a.btn(href=`/productos/editar/${p._id}`) ✏️
+                  a.delete(href=`/productos/delete/${p._id}`) ❌
 
-  // ---------------------------
-  // Sección Órdenes Pendientes
-  // ---------------------------
-  section
-    h3 Órdenes Pendientes
-    - const pendientes = ordenes.filter(o => o.estado !== 'entregada')
-    if pendientes.length === 0
-      p No hay órdenes pendientes
-    else
-      each orden in pendientes
-        .orden
-          p Dirección: #{orden.addres}
-          p Fecha: #{orden.creacion.toLocaleDateString()}
-          ul
-            each prod in orden.productos
-              li #{prod.nombre} - $#{prod.precio} x #{prod.cantidad}
+      // ÓRDENES PENDIENTES
+      .card
+        h3 Órdenes Pendientes
+        - const pendientes = ordenes.filter(o => o.estado !== 'entregada')
+        if pendientes.length === 0
+          p No hay órdenes pendientes
+        else
+          each o in pendientes
+            .orden
+              p Dirección: #{o.addres}
+              p Fecha: #{o.creacion.toLocaleDateString()}
+              ul
+                each prod in o.productos
+                  li #{prod.nombre} x #{prod.cantidad}
+              form(method="POST", action=`/ordenes/${o._id}/entregada`)
+                button(type="submit") Marcar entregada
 
-          p Estado: ⏳ Pendiente
-          form(method="POST", action=`/ordenes/${orden._id}/entregada`)
-            button.btn(type="submit") ✅ Marcar como entregada
-
-  // ---------------------------
-  // Sección Pedidos Entregados
-  // ---------------------------
-  section
-    h3 Pedidos Entregados
-    - const entregadas = ordenes.filter(o => o.estado === 'entregada')
-    if entregadas.length === 0
-      p No hay pedidos entregados aún
-    else
-      each orden in entregadas
-        .orden
-          p Dirección: #{orden.addres}
-          p Fecha: #{orden.creacion.toLocaleDateString()}
-          ul
-            each prod in orden.productos
-              li #{prod.nombre} - $#{prod.precio} x #{prod.cantidad}
-
-          p Estado: ✅ Entregada
-
-  // ---------------------------
-  // Logout
-  // ---------------------------
-  a.btn(href="/auth/logout") Cerrar sesión
+      // PEDIDOS ENTREGADOS
+      .card
+        h3 Pedidos Entregados
+        - const entregadas = ordenes.filter(o => o.estado === 'entregada')
+        if entregadas.length === 0
+          p No hay pedidos entregados
+        else
+          each o in entregadas
+            .orden(style="border-left-color:#16a34a")
+              p Dirección: #{o.addres}
+              p Fecha: #{o.creacion.toLocaleDateString()}
+              ul
+                each prod in o.productos
+                  li #{prod.nombre} x #{prod.cantidad}
+              strong Estado: Entregada
