@@ -1,5 +1,6 @@
 import mongoose from "mongoose"
 
+//Guarda el orden en Mongo
 const usuarioSchema = new mongoose.Schema({
     nombre: String,
     email: { type: String, required: true, unique: true },

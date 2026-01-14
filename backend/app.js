@@ -14,13 +14,14 @@ dotenv.config()
 
 const app = express()
 
+//Conexion a Mongo 
 const server = async () => {
   try {
-    // 1️⃣ Conexión correcta (await)
+    //Conexion correcta 
     await mongoose.connect(process.env.MONGO_URI)
     console.log("MongoDB conectado")
 
-    // 2️⃣ Asegurar admin
+    //Asegura el admin
     const hashedcontra = await bcrypt.hash("admin123", 10)
 
     await USER.updateOne(

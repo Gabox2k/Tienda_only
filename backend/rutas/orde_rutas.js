@@ -4,11 +4,13 @@ import {auth } from "../midd/middleware.js"
 
 const ruta = express.Router()
 
+//Lista de todas las ordenes 
 ruta.get("/", auth, async (req, res) => {
     const orders = await Orde.find();
     res.render("orders", {orders });
 });
 
+//Crea una orden 
 ruta.post("/crear", async (req, res) => {
 
  const { productos, direccion } = req.body;
@@ -20,6 +22,7 @@ ruta.post("/crear", async (req, res) => {
   res.status(200).json({ ok: true });
 });
 
+//Marca como entregada 
 ruta.post("/:id/entregada", async (req, res) => {
     const id = req.params.id
 

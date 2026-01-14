@@ -9,6 +9,8 @@ ruta.get("/login" , (req, res) => {
     res.render("login")
 })
 
+
+//Validacion de contra y creacion del token
 ruta.post("/login", async (req, res) => {
     const { email, contra} = req.body
     const user = await USER.findOne({email}) 
@@ -30,6 +32,7 @@ ruta.post("/login", async (req, res) => {
 
     console.log(`User logged in: ${user.email} role=${user.role}`)
 
+    //Obtiene el rol de admin
     if (user.role === "admin"){
         console.log("Redirect a /panel")
         return res.redirect("/panel")
@@ -37,6 +40,7 @@ ruta.post("/login", async (req, res) => {
     return res.redirect("/productos")
 })
 
+//Cerrar sesion 
 ruta.get("/logout", (req,res) =>{
     res.clearCookie("token")
     res.redirect("/auth/login")

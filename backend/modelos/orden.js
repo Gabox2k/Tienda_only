@@ -1,5 +1,6 @@
 import mongoose from "mongoose"
 
+//Guarda el orden en Mongo
 const ordenSchema = new mongoose.Schema({
     productos: Array,
     addres: String,
