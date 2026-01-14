@@ -133,6 +133,7 @@ func ComprarCarrito(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	//Envia al backend
 	resp, err := http.Post("http://localhost:3000/orden/crear", "application/json", bytes.NewBuffer(b))
 	if err != nil || resp.StatusCode != 200 {
 		http.Error(w, "no se pudo crear el orden ", http.StatusInternalServerError)
