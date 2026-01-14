@@ -17,10 +17,12 @@ import (
 
 var carrito = modelo.Carrito{}
 
+// Funcion para agregar los productos al carrito
 func AgregarAlCarrito(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	id := r.FormValue("id")
 
+	//Covierte el id a ObjId
 	objId, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		http.Error(w, "id no valido", http.StatusBadRequest)
@@ -28,15 +30,19 @@ func AgregarAlCarrito(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var producto modelo.Producto
+
+	//Busca el producto por su id
 	err = db.DB.Collection("productos").
 		FindOne(context.TODO(), bson.M{"_id": objId}).
 		Decode(&producto)
 
+	//Error cuando no se encuentra el producto
 	if err != nil {
 		http.Error(w, "producto no encontrado", http.StatusNotFound)
 		return
 	}
 
+	//Recorre los productos del carrito
 	for i, item := range carrito.Items {
 		if item.Producto.Id == producto.Id {
 			carrito.Items[i].Cantidad++
@@ -45,6 +51,7 @@ func AgregarAlCarrito(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	//Agrega un producto al carrito
 	carrito.Items = append(carrito.Items, modelo.ItemCarro{
 		Producto: producto,
 		Cantidad: 1,
@@ -53,6 +60,7 @@ func AgregarAlCarrito(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
+// Formatea el numero
 func precio2(valor float64) string {
 	s := fmt.Sprintf("%.0f", valor)
 
@@ -64,6 +72,7 @@ func precio2(valor float64) string {
 	return s[:n-3] + "." + s[n-3:]
 }
 
+// Muestra lo que hay en el carrito
 func VerCarrito(w http.ResponseWriter, r *http.Request) {
 
 	total := 0.0
@@ -90,17 +99,20 @@ func VerCarrito(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, data)
 }
 
+// Cancelar la compra
 func CancelarCarrito(w http.ResponseWriter, r *http.Request) {
 	carrito.Items = []modelo.ItemCarro{}
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
+// Compra la que hay dentro del carrito
 func ComprarCarrito(w http.ResponseWriter, r *http.Request) {
 	if len(carrito.Items) == 0 {
 		http.Redirect(w, r, "/carrito", http.StatusSeeOther)
 		return
 	}
 
+	//Convierte en formato JSON
 	var productosPayload []map[string]interface{}
 	for _, item := range carrito.Items {
 		productosPayload = append(productosPayload, map[string]interface{}{

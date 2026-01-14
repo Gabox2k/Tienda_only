@@ -12,19 +12,26 @@ import (
 
 var DB *mongo.Database
 
+// Conexion con MongoDB
 func Conexion() {
+	//Limite de 10s
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+
+	//Libera recursos
 	defer cancel()
 
+	//Conecta con MongoDB
 	cliente, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://127.0.0.1:27017"))
 
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("Error al conectar ", err)
 	}
 
+	//Crea la base de datos
 	DB = cliente.Database("pinguinos")
 	log.Println("mongodb conectado")
 
+	//Creacion de una lista y guarda en uns BSON
 	productos := []interface{}{
 		bson.D{{"nombre", "teclado"}, {"precio", 5}, {"imagen", "/imagen/Teclado.jpg"}},
 		bson.D{{"nombre", "teclado"}, {"precio", 32}, {"imagen", "/imagen/Teclado2.jpg"}},
@@ -40,6 +47,7 @@ func Conexion() {
 		bson.D{{"nombre", "PC"}, {"precio", 1000}, {"imagen", "/imagen/PC3.jpg"}},
 	}
 
+	//Cuenta cuanto hay en productos
 	count, _ := DB.Collection("productos").CountDocuments(ctx, bson.D{})
 	if count == 0 {
 		DB.Collection("productos").InsertMany(ctx, productos)

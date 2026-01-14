@@ -6,6 +6,7 @@ import (
 	"tienda_only/handlers"
 )
 
+// Registra las rutas
 func CargaRutas() {
 	http.HandleFunc("/", handlers.MostrarProductos)
 

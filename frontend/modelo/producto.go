@@ -2,6 +2,7 @@ package modelo
 
 import "go.mongodb.org/mongo-driver/bson/primitive"
 
+//Orden de producto
 type Producto struct {
 	Id     primitive.ObjectID `bson:"_id,omitempty"`
 	Nombre string             `bson:"nombre"`

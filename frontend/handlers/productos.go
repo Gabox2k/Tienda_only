@@ -12,6 +12,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
+// Formatea el numero
 func precio(valor float64) string {
 	s := fmt.Sprintf("%.0f", valor)
 
@@ -23,6 +24,7 @@ func precio(valor float64) string {
 	return s[:n-3] + "." + s[n-3:]
 }
 
+// Muestra todos los productos
 func MostrarProductos(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.New("layout.html").
 		Funcs(template.FuncMap{
@@ -32,6 +34,7 @@ func MostrarProductos(w http.ResponseWriter, r *http.Request) {
 		"templates/productos.html"),
 	)
 
+	//Buca todos los productos
 	cursor, _ := db.DB.Collection("productos").Find(context.TODO(), bson.M{})
 
 	var productos []modelo.Producto
