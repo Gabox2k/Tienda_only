@@ -7,7 +7,7 @@ block content
 
   .container
     .grid
-      // PRODUCTOS
+      //Productos 
       .card
         h3 Productos
         table
@@ -25,7 +25,7 @@ block content
                   a.btn(href=`/productos/editar/${p._id}`) ✏️
                   a.delete(href=`/productos/delete/${p._id}`) ❌
 
-      // ÓRDENES PENDIENTES
+      // Ordenes Pendientes 
       .card
         h3 Órdenes Pendientes
         - const pendientes = ordenes.filter(o => o.estado !== 'entregada')
@@ -42,7 +42,7 @@ block content
               form(method="POST", action=`/ordenes/${o._id}/entregada`)
                 button(type="submit") Marcar entregada
 
-      // PEDIDOS ENTREGADOS
+      // Pedidos Entregados 
       .card
         h3 Pedidos Entregados
         - const entregadas = ordenes.filter(o => o.estado === 'entregada')

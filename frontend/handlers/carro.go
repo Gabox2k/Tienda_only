@@ -75,11 +75,13 @@ func precio2(valor float64) string {
 // Muestra lo que hay en el carrito
 func VerCarrito(w http.ResponseWriter, r *http.Request) {
 
+	//Calcula el precio x la cantidad
 	total := 0.0
 	for _, item := range carrito.Items {
 		total += item.Producto.Precio * float64(item.Cantidad)
 	}
 
+	//Mostrar la vista con el precio calculado
 	data := struct {
 		Items []modelo.ItemCarro
 		Total float64
@@ -122,12 +124,16 @@ func ComprarCarrito(w http.ResponseWriter, r *http.Request) {
 		})
 	}
 
+	//Creando un diccionario
 	payload := map[string]interface{}{
 		"productos": productosPayload,
 		"direccion": "dirrecion por defecto",
 	}
 
+	//Convertir datos
 	b, err := json.Marshal(payload)
+
+	//Error
 	if err != nil {
 		http.Error(w, "error en el json", http.StatusInternalServerError)
 		return

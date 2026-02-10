@@ -19,7 +19,7 @@ else
           each prod in o.productos
             li #{prod.nombre} - $#{prod.precio} x #{prod.cantidad}
 
-        // Aquí van el estado y el botón ✅
+        // Estado del producto 
         p Estado: #{o.estado === 'entregada' ? '✅ Entregada' : '⏳ Pendiente'}
 
         form(method="POST", action=`/ordenes/${o._id}/entregada`)
