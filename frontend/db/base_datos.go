@@ -31,7 +31,7 @@ func Conexion() {
 	DB = cliente.Database("pinguinos")
 	log.Println("mongodb conectado")
 
-	//Creacion de una lista y guarda en uns BSON
+	//Creacion de una lista y guarda en un BSON
 	productos := []interface{}{
 		bson.D{{"nombre", "teclado"}, {"precio", 5}, {"imagen", "/imagen/Teclado.jpg"}},
 		bson.D{{"nombre", "teclado"}, {"precio", 32}, {"imagen", "/imagen/Teclado2.jpg"}},
